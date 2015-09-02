@@ -414,18 +414,19 @@
                 zpdElement.data.stateTf = zpdElement.data.stateTf.multiply(k.inverse());
             };
 
-            var handleClick = function handleClick (event) {
-                if(zpdElement.data.panOrDragStarted !== undefined &&
-                   event.timeStamp - zpdElement.data.panOrDragStarted > 100) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    event.stopImmediatePropagation();
-                    return false;
+            var handleClick = ƒ handleClick (event) {
+                var dragStartTime = zpdElement.data.panOrDragStarted
+                zpdElement.data.panOrDragStarted = undefined
+
+                if (dragStartTime !== undefined
+                     && event.timeStamp - dragStartTime > 100) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                    event.stopImmediatePropagation()
+                    ↩ false
                 }
-
-                zpdElement.data.panOrDragStarted = undefined;
             };
-
+ 
             return {
                 "mouseUp": handleMouseUp,
                 "mouseDown": handleMouseDown,

@@ -318,6 +318,8 @@
 
                     zpdElement.data.stateOrigin = _getEventPoint(event, zpdElement.data.svg).matrixTransform(zpdElement.data.stateTf);
 
+                    zpdElement.data.panOrDragStarted = Date.now();
+
                 } else {
 
                     // Drag mode
@@ -328,6 +330,9 @@
                     zpdElement.data.stateTf = g.getCTM().inverse();
 
                     zpdElement.data.stateOrigin = _getEventPoint(event, zpdElement.data.svg).matrixTransform(zpdElement.data.stateTf);
+
+
+                    zpdElement.data.panOrDragStarted = Date.now();
 
                 }
             };
@@ -409,11 +414,24 @@
                 zpdElement.data.stateTf = zpdElement.data.stateTf.multiply(k.inverse());
             };
 
+            var handleClick = function handleClick (event) {
+                if(zpdElement.data.panOrDragStarted !== undefined &&
+                   event.timeStamp - zpdElement.data.panOrDragStarted > 100) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    return false;
+                }
+
+                zpdElement.data.panOrDragStarted = undefined;
+            };
+
             return {
                 "mouseUp": handleMouseUp,
                 "mouseDown": handleMouseDown,
                 "mouseMove": handleMouseMove,
-                "mouseWheel": handleMouseWheel
+                "mouseWheel": handleMouseWheel,
+                "click": handleClick
             };
         };
 
@@ -434,6 +452,7 @@
                 svgElement.addEventListener('mouseup', handlerFunctions.mouseUp, false);
                 svgElement.addEventListener('mousedown', handlerFunctions.mouseDown, false);
                 svgElement.addEventListener('mousemove', handlerFunctions.mouseMove, false);
+                window.addEventListener('click', handlerFunctions.click, true);
 
                 if (navigator.userAgent.toLowerCase().indexOf('webkit') >= 0 ||
                     navigator.userAgent.toLowerCase().indexOf('trident') >= 0) {
@@ -454,6 +473,7 @@
             svgElement.removeEventListener('mouseup', handlerFunctions.mouseUp, false);
             svgElement.removeEventListener('mousedown', handlerFunctions.mouseDown, false);
             svgElement.removeEventListener('mousemove', handlerFunctions.mouseMove, false);
+            window.removeEventListener('click', handlerFunctions.click, true);
 
             if (navigator.userAgent.toLowerCase().indexOf('webkit') >= 0 ||
                 navigator.userAgent.toLowerCase().indexOf('trident') >= 0) {

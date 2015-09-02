@@ -414,16 +414,16 @@
                 zpdElement.data.stateTf = zpdElement.data.stateTf.multiply(k.inverse());
             };
 
-            var handleClick = ƒ handleClick (event) {
-                var dragStartTime = zpdElement.data.panOrDragStarted
-                zpdElement.data.panOrDragStarted = undefined
+            var handleClick = function handleClick (event) {
+                var dragStartTime = zpdElement.data.panOrDragStarted;
+                zpdElement.data.panOrDragStarted = undefined;
 
                 if (dragStartTime !== undefined
                      && event.timeStamp - dragStartTime > 100) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                    event.stopImmediatePropagation()
-                    ↩ false
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    ↩ false;
                 }
             };
  

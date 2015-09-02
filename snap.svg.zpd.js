@@ -423,7 +423,7 @@
                     event.preventDefault();
                     event.stopPropagation();
                     event.stopImmediatePropagation();
-                    ↩ false;
+                    return false;
                 }
             };
  
